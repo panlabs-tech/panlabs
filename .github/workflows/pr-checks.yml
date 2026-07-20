@@ -52,13 +52,30 @@ jobs:
   security:
     name: security
     runs-on: ubuntu-latest
+    # A action gitleaks/gitleaks-action exige licenca paga quando o repo
+    # pertence a uma organizacao ("[org] is an organization. License key is
+    # required."), o que passou a valer ao transferir panlabs para
+    # panlabs-tech. O binario gitleaks e MIT e nao tem essa restricao, entao
+    # usamos ele direto: versao fixada e checksum conferido antes de executar.
+    env:
+      GITLEAKS_VERSION: 8.30.1
+      GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
     steps:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: gitleaks/gitleaks-action@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: instalar gitleaks
+        run: |
+          set -euo pipefail
+          tarball="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          curl -sSfL -o "$tarball" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/${tarball}"
+          echo "${GITLEAKS_SHA256}  ${tarball}" | sha256sum --check --status
+          sudo tar -xzf "$tarball" -C /usr/local/bin gitleaks
+          rm -f "$tarball"
+          gitleaks version
+      - name: gitleaks (historico completo)
+        run: gitleaks git . --redact --verbose
 
   open-pr:
     name: open-pr
