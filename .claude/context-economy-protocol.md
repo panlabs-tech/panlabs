@@ -1,0 +1,14 @@
+# Protocolo de economia de contexto — implementação
+
+> Injetado pelo hook global `UserPromptSubmit` (`~/.claude/hooks/context-economy-injector.py`) quando uma implementação começa. Também é o **marker** de opt-in: enquanto este arquivo existir, os hooks globais de economia de contexto ficam ativos neste repo (sem ele, são inertes). Origem e mecanismo: [A fronteira global vs. repo](https://github.com/panlabs-tech/panlabs/issues/54).
+
+Você está iniciando implementação. A meta é chegar ao primeiro teste RED com a janela perto do baseline, não em 100k+. Os dois maiores custos medidos antes do primeiro código são **a sua própria prosa** (planos longos + narração) e **a releitura dos arquivos vizinhos que o digest já viu**. Ataque os dois:
+
+1. **Delegue o reconhecimento a um subagente `Explore`**, com escopo na área tocada. Peça um digest de schema fixo: arquivos relevantes (path + por que importam), padrão a espelhar, invariantes/ADR aplicáveis, seams para TDD (onde o RED encosta). **E peça que ele embuta verbatim o(s) vizinho(s) mais próximo(s) a clonar** — o arquivo que o código novo vai espelhar (port, use-case, fake, teste irmão), citando os demais só por path. O digest carrega o código a copiar; assim ele não custa uma segunda leitura sua. No modo autônomo ("implementa as issues"): um `Explore` por issue.
+2. **Aja só sobre o digest.** O vizinho que veio embutido você **não relê** — clona dele. Dos demais, leia só os que o digest nomeia e só o que faltou, em fatias estreitas (`offset`/`limit`), o suficiente pro RED. O digest é seu **orçamento de leitura** — não releia a árvore nem explore além dele.
+3. **Vá direto ao RED.** Não redija o plano completo em prosa antes do primeiro teste — o digest já é o plano. Escreva o RED, deixe-o falhar, e só então o GREEN.
+4. **Narre comprimido.** Como primeira ação, acione a skill `/caveman` no modo **ultra** para a narração desta implementação. Ela mantém código, commits, PRs e avisos de risco em prosa normal (seções *Boundaries* e *Auto-Clarity* da própria skill) — só a sua narração encolhe. É o ataque ao maior custo medido: sua prosa vira input dos turnos seguintes e infla a janela inteira.
+5. **Issue enxuta.** Só a issue-alvo (`gh issue view N`, campos title/body/labels). Sem issues irmãs, sem `--comments` salvo necessidade real.
+6. **Nunca releia output cru.** `.output` de subagente e dumps de `tool-results/` de MCP já viraram digest/preview — não os releia (a trava de Read bloqueia). Precisa do conteúdo? Re-consulte a fonte com pergunta dirigida.
+
+Por quê: medições reais em `life-under-control` mostraram a janela chegando a 92-160k no primeiro código. O dump dominante não foi leitura de arquivo "à toa" — foi **a narração do próprio agente** (~33k em dois turnos de prosa numa sessão) somada à **releitura de vizinhos que o digest já tinha visto**. Delegar, **embutir o vizinho no digest**, **ir direto ao RED** e **comprimir a prosa** atacam exatamente esses custos.
