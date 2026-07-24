@@ -13,4 +13,10 @@ describe("Footer", () => {
     expect(screen.getByText("next_steps.md")).toBeInTheDocument();
     expect(screen.getByText(/keep building and sharing/)).toBeInTheDocument();
   });
+
+  it("links back to the GitHub org", () => {
+    render(<Footer />);
+    const link = screen.getByRole("link", { name: "github.com/panlabs-tech" });
+    expect(link).toHaveAttribute("href", "https://github.com/panlabs-tech");
+  });
 });

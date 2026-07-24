@@ -34,6 +34,21 @@
   color: var(--text-faint);
 }
 
+.orgLine {
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: var(--text-faint);
+}
+
+.orgLink {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.orgLink:hover {
+  color: var(--text-default);
+}
+
 @media (max-width: 639px) {
   .inner {
     padding: 40px var(--space-5) 72px;
