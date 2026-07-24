@@ -1,9 +1,10 @@
 # Componente: Footer (Camada 3)
 
 Terceira camada — o **fechamento de terminal**. Encerra a página do jeito que o hero a abriu: um prompt
-`panini@panlabs:~$`, um `keep building and sharing` discreto com caret piscando, e um colofão de uma linha.
-**Sem CTA, sem funil** — o laboratório só deixa o cursor piscando
-([ADR-0007](../../adr/0007-audiencia-e-posicionamento.md)).
+`panini@panlabs:~$`, um `keep building and sharing` discreto com caret piscando, um colofão de uma linha e
+um link discreto de volta para a org no GitHub. **Sem CTA, sem funil** — o laboratório só deixa o cursor
+piscando ([ADR-0007](../../adr/0007-audiencia-e-posicionamento.md)); o link é texto simples, sem estilo de
+botão, para não virar funil.
 
 ## Código
 
@@ -18,6 +19,7 @@ Terceira camada — o **fechamento de terminal**. Encerra a página do jeito que
     <Prompt cat next_steps.md/>
     <p.headline> keep building and sharing <span.caret/>
     <p.colophon> dark-native · pt-BR · Manrope + JetBrains Mono · sem CDN
+    <p.orgLine> <a.orgLink href="https://github.com/panlabs-tech"> github.com/panlabs-tech
 ```
 
 ## Forma
@@ -30,6 +32,10 @@ Terceira camada — o **fechamento de terminal**. Encerra a página do jeito que
   (não há input por vir).
 - **Colofão** (`.colophon`): mono 11px, `--text-faint`. Honra os inegociáveis (dark-native, pt-BR, fontes
   auto-hospedadas, sem CDN).
+- **Link de org** (`.orgLine` / `.orgLink`): mesma tipografia do colofão (mono 11px, `--text-faint`),
+  linha própria abaixo dele. `<a>` sublinhado (`text-decoration: underline`, `text-underline-offset: 2px`),
+  `color: inherit` até o hover, quando vai para `--text-default`. `target="_blank"` +
+  `rel="noopener noreferrer"`, igual aos demais links externos do site.
 
 ## Movimento & a11y
 
