@@ -1,3 +1,27 @@
+# O portão 1, local, antes do commit. O portão 2 é a CI, no PR
+# (`.github/workflows/pr-checks.yml`), e ele continua sendo o gate real: o que
+# este arquivo faz é pegar barato o erro barato, não substituir aquele.
+#
+# A anatomia da org cobra três coisas aqui, e o checker as verifica lendo este
+# arquivo:
+#
+#   1. que o portão exista                     -> `local-commit-gate-exists`
+#   2. padrão de mensagem de commit            -> `commit-message-standard-declared`
+#   3. verificação de segredos antes do commit -> `secret-scan-before-commit`
+#
+# O terceiro cobra **`gitleaks` e não outro scanner**, e o motivo não é gosto: o
+# portão de CI compartilhado roda gitleaks, e um portão local que rodasse outro
+# faria "passou no local" e "passou na CI" significarem coisas diferentes.
+#
+# Aqui o scanner ganhou um segundo motivo com o retrofit de anatomia:
+# `.mcp.json` deixou de ser gitignored e passou a ser versionado com placeholder
+# de variável de ambiente. Trocar valor literal por placeholder só é seguro se
+# alguma coisa impedir o literal de voltar, e é este passo.
+#
+# `gitleaks` é equipamento da máquina, provisionado globalmente, e não
+# dependência deste repo. Uma máquina sem ele perde o passo por design, não por
+# omissão: o mesmo scan roda de novo na CI, sobre o histórico inteiro.
+
 skip_output:
   - meta
   - summary
@@ -6,11 +30,18 @@ skip_output:
   - skips
 
 pre-commit:
+  parallel: true
   commands:
     biome:
-      run: npx biome check --staged --no-errors-on-unmatched
+      run: pnpm exec biome check --staged --no-errors-on-unmatched
+
+    # O scan roda sobre o **staged**, que é o único momento em que barrar ainda
+    # é barato: depois do commit o segredo já está no histórico local, e tirá-lo
+    # de lá é reescrita de história, não conserto.
+    gitleaks:
+      run: gitleaks git --staged --no-banner --redact
 
 commit-msg:
   commands:
     commitlint:
-      run: npx commitlint --edit {1}
+      run: pnpm exec commitlint --edit {1}
