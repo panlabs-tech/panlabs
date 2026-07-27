@@ -18,7 +18,7 @@ Na dúvida sobre cair num dos quatro, pare. Fora deles, faça.
 ## Fluxo padrão
 
 1. **`/grill-with-docs`** (ou `/grill-me`) — alinhar escopo, obter plano, resolver linguagem.
-2. **`/to-issues`** — fatiar em issues independentes. Para features grandes, `/to-prd` primeiro, depois `/to-issues`.
+2. **`/to-tickets`**: fatiar em tickets independentes. Para features grandes, `/to-spec` primeiro, depois `/to-tickets`. (As duas skills já se chamaram `/to-issues` e `/to-prd`; os nomes antigos são revisão antiga e não existem mais.)
 3. **`/tdd` + caveman full** — implementar; caveman full é o padrão para economizar tokens.
 4. **`git worktree` por issue** — um worktree por issue para isolar contexto.
 5. **Commit + push** — a esteira `pr-checks` dispara automaticamente.

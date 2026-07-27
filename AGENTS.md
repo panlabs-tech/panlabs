@@ -29,7 +29,7 @@ Monorepo, com cada aplicação numa subpasta de `apps/`. Hoje existe uma:
 
 O gerenciador de pacotes é **pnpm**, e o lockfile da raiz é o único. Rodar `npm install` aqui produz um `package-lock.json` que não deveria existir, e o portão de conformidade da org reprova por isso.
 
-Os scripts da raiz (`lint`, `typecheck`, `test`, `build`) delegam para o workspace, e são a interface que a CI compartilhada chama. Trabalho de aplicação também pode ser rodado direto de `apps/web/`.
+Os scripts da raiz são a interface que a CI compartilhada chama, e não são todos da mesma espécie: `typecheck`, `test` e `build` delegam para o workspace, e `lint` roda na raiz, com um biome só para o repo inteiro (inclusive o que não é aplicação). Trabalho de aplicação também pode ser rodado direto de `apps/web/`.
 
 ## Convenções
 
@@ -87,7 +87,7 @@ Doutrina completa em [ADR-0014](docs/adr/0014-autonomia-total-dos-agentes.md) e 
 
 ### Fluxo padrão
 
-`/grill-with-docs` → `/to-tickets` → `/tdd` → worktree por issue → commit → push → PR automático → **merge autônomo no verde** → encadear.
+`/grill-with-docs` → `/to-tickets` → `/tdd` + caveman full → worktree por issue → commit → push → PR automático → **merge autônomo no verde** → encadear.
 
 "Implementa as issues" significa modo autônomo completo: coletar as issues `ready-for-agent`, worktree por issue, implementar, mergear, encadear sem parar.
 

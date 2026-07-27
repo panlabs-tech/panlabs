@@ -17,8 +17,9 @@ pnpm-debug.log*
 .env.*
 !.env.example
 
-# O Dockerfile é lido pelo cliente, não pelo contexto. O da raiz é symlink para
-# o de `apps/web`, e nenhum dos dois precisa ser copiado para dentro da imagem.
+# O Dockerfile é lido pelo cliente, não pelo contexto. O da raiz é a receita, e
+# `apps/web/Dockerfile` é symlink para ele; nenhum dos dois precisa ser copiado
+# para dentro da imagem.
 Dockerfile
 apps/*/Dockerfile
 
@@ -27,7 +28,10 @@ apps/*/Dockerfile
 **/*.test.tsx
 
 # Configuração de agente, documentação e rascunho: nada disso é build.
+# `.agents` já não é versionado, e continua listado porque o contexto de um
+# `docker build .` local carrega o que está no disco, não o que está no git.
 .claude
+.agents
 .mcp.json
 docs
 prompts

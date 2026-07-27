@@ -14,6 +14,8 @@ Antes desta convergência a configuração real ficava gitignorada com o token e
 
 `COOLIFY_BASE_URL` é o único com default (`https://vps.panlabs.tech`), porque é endereço público e não segredo. Declarar a variável no `.env` só é necessário para apontar para outra instância.
 
+O da Cloudflare não pede variável nenhuma: é HTTP, e autentica no navegador. O `CLOUDFLARE_DNS_TOKEN` que o `.env.example` lista existe para operação de DNS feita à mão, e não passa por aqui.
+
 Nenhum destes é lido pela aplicação: são ferramenta de trabalho de infra. As duas variáveis que a **aplicação** lê são `DATABASE_URL` e `GITHUB_TOKEN`, e as duas degradam graciosamente quando faltam (ADR-0012, ADR-0013).
 
 ## O portão que sustenta o placeholder

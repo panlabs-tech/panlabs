@@ -6,7 +6,7 @@ Estrutura da página, container, grid e breakpoints **as-built**. Os breakpoints
 
 ## Estrutura da página (DOM)
 
-[`src/app/layout.tsx`](../../src/app/layout.tsx) + [`src/app/page.tsx`](../../src/app/page.tsx):
+[`apps/web/src/app/layout.tsx`](../../apps/web/src/app/layout.tsx) + [`apps/web/src/app/page.tsx`](../../apps/web/src/app/page.tsx):
 
 ```
 <html lang="pt-BR" class="{--font-manrope} {--font-jetbrains}">
@@ -50,7 +50,7 @@ O movimento (reveal ao rolar + traço SVG) é o primitivo `Reveal` — ver
 
 ## Header (barra fixa)
 
-[`Header.module.css`](../../src/components/Header/Header.module.css) — "barra fixa" de Chosen, restaurada
+[`Header.module.css`](../../apps/web/src/components/Header/Header.module.css) — "barra fixa" de Chosen, restaurada
 na Fase 3:
 
 - `position: sticky; top: 0; z-index: var(--z-header)` — flutua sobre o conteúdo rolado.
@@ -63,7 +63,7 @@ Detalhes em [components/header.md](components/header.md).
 
 ## Hero
 
-[`HeroTerminal.module.css`](../../src/components/HeroTerminal/HeroTerminal.module.css):
+[`HeroTerminal.module.css`](../../apps/web/src/components/HeroTerminal/HeroTerminal.module.css):
 
 - `.hero` — `position: relative; isolation: isolate; overflow: hidden`, `border-bottom` hairline. Carrega
   os **knobs do cover** (`--hero-cover-blur/brightness/scrim`).
@@ -73,7 +73,7 @@ Detalhes em [components/header.md](components/header.md).
 
 ## Catálogo & grid
 
-[`Catalog.module.css`](../../src/components/Catalog/Catalog.module.css):
+[`Catalog.module.css`](../../apps/web/src/components/Catalog/Catalog.module.css):
 
 - `.catalog` — container 1080px, padding `var(--space-10-5) var(--space-10) var(--space-24)`.
 - `.meta` — linha mono `// N soluções no ar · preview ao vivo`.

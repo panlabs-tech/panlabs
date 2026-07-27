@@ -33,7 +33,11 @@ on:
       # (`worktree-<nome>`), não com barra.
       - "worktree-**"
       # A raiz de branch do Dependabot, que não é configurável. Sem esta linha o
-      # PR do bot não dispara checagem nenhuma e os required checks nunca saem.
+      # PR do bot não dispara checagem nenhuma e os required checks nunca saem,
+      # e o PR fica pendurado esperando um status que ninguém vai publicar.
+      # Não é linha preventiva: as atualizações de segurança do Dependabot já
+      # abrem PR aqui sem depender de `.github/dependabot.yml`, e havia duas
+      # branches `dependabot/**` vivas no remoto quando esta linha foi escrita.
       - "dependabot/**"
 
 permissions:

@@ -5,9 +5,9 @@ Barra fixa do topo — marca + wordmark + mote. Read-only, **sem navegação** (
 
 ## Código
 
-- [`src/components/Header/Header.tsx`](../../../src/components/Header/Header.tsx)
-- [`src/components/Header/Logo.tsx`](../../../src/components/Header/Logo.tsx)
-- [`src/components/Header/Header.module.css`](../../../src/components/Header/Header.module.css)
+- [`apps/web/src/components/Header/Header.tsx`](../../../apps/web/src/components/Header/Header.tsx)
+- [`apps/web/src/components/Header/Logo.tsx`](../../../apps/web/src/components/Header/Logo.tsx)
+- [`apps/web/src/components/Header/Header.module.css`](../../../apps/web/src/components/Header/Header.module.css)
 
 ## Estrutura
 

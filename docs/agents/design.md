@@ -19,8 +19,8 @@ If any of these don't exist yet, proceed silently.
 
 ## Source of truth vs origin
 
-- **Source of truth (live):** the code in `src/`. Tokens in `src/styles/theme.css`; resets/focus in
-  `src/styles/base.css`; each component's form in its co-located `*.module.css`.
+- **Source of truth (live):** the code in `apps/web/src/`. Tokens in `apps/web/src/styles/theme.css`; resets/focus in
+  `apps/web/src/styles/base.css`; each component's form in its co-located `*.module.css`.
 - **Credited origin (frozen):** "Chosen", the official prototype, in `.claude/design/panlabs/` —
   **gitignored**. Don't un-ignore it; don't treat it as current truth. Where as-built diverged from Chosen,
   as-built wins. The full delta map is [`docs/design/procedencia-e-deltas.md`](../design/procedencia-e-deltas.md).

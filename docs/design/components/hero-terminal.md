@@ -4,8 +4,8 @@ Hero da landing — cover full-bleed atrás de uma "voz de terminal" que datilog
 
 ## Código
 
-- [`src/components/HeroTerminal/HeroTerminal.tsx`](../../../src/components/HeroTerminal/HeroTerminal.tsx)
-- [`src/components/HeroTerminal/HeroTerminal.module.css`](../../../src/components/HeroTerminal/HeroTerminal.module.css)
+- [`apps/web/src/components/HeroTerminal/HeroTerminal.tsx`](../../../apps/web/src/components/HeroTerminal/HeroTerminal.tsx)
+- [`apps/web/src/components/HeroTerminal/HeroTerminal.module.css`](../../../apps/web/src/components/HeroTerminal/HeroTerminal.module.css)
 
 ## Estrutura
 

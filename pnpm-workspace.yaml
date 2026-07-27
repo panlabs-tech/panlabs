@@ -13,8 +13,14 @@ packages:
 #
 # - `lefthook` baixa o binário do portão local no postinstall. Sem ele, o
 #   `prepare` da raiz não teria o que instalar como git hook.
-# - `sharp` compila o codec que o Next usa para otimizar imagem em produção.
-#   Sem ele o build ainda passa, e a imagem sai sem otimização nenhuma.
+# - `sharp` roda o script que confere o binário pré-compilado da plataforma e,
+#   se não houver, compila do fonte. É o codec que o Next usa para otimizar
+#   imagem.
+#
+# As duas valem para a instalação de desenvolvimento e a da CI. A imagem de
+# produção instala com `--ignore-scripts` (o `prepare` da raiz quer um git que
+# não existe lá dentro), e o `sharp` continua funcionando por causa do pacote
+# pré-compilado da plataforma, que é dependência opcional e entra sem script.
 allowBuilds:
   lefthook: true
   sharp: true

@@ -8,8 +8,8 @@ botão, para não virar funil.
 
 ## Código
 
-- [`src/components/Footer/Footer.tsx`](../../../src/components/Footer/Footer.tsx)
-- [`src/components/Footer/Footer.module.css`](../../../src/components/Footer/Footer.module.css)
+- [`apps/web/src/components/Footer/Footer.tsx`](../../../apps/web/src/components/Footer/Footer.tsx)
+- [`apps/web/src/components/Footer/Footer.module.css`](../../../apps/web/src/components/Footer/Footer.module.css)
 
 ## Estrutura
 

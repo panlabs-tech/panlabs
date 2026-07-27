@@ -1,7 +1,7 @@
 # Design spec — tokens, tipografia, voz, movimento
 
 Vocabulário visual do panlabs **as-built**. A fonte-da-verdade dos valores é
-[`src/styles/theme.css`](../../src/styles/theme.css) — este doc descreve a **taxonomia, as regras de uso e
+[`apps/web/src/styles/theme.css`](../../apps/web/src/styles/theme.css) — este doc descreve a **taxonomia, as regras de uso e
 as decisões**, não recopia cada valor (que derivaria). Quando precisar do valor exato, leia o token no
 `theme.css`.
 
@@ -63,7 +63,7 @@ Tema **único (escuro)**. Não há alternância de tema.
 ## Tipografia
 
 Duas famílias, **auto-hospedadas** via `next/font/local` (woff2, subset latino — zero request a Google
-Fonts), em [`src/app/layout.tsx`](../../src/app/layout.tsx):
+Fonts), em [`apps/web/src/app/layout.tsx`](../../apps/web/src/app/layout.tsx):
 
 - **Sans — Manrope** (`--font-sans`, var `--font-manrope`, peso `200 800`): corpo, lede, tagline do card,
   wordmark.
@@ -103,7 +103,7 @@ Nomes de Solução são **lowercase** (`ethitorial`, `travelmanager`) — não c
 (tenets do Manifesto, pilares da arquitetura) é **editorial inline** no componente, não token.
 
 **Caveat de sincronia de copy (atenção do dono):** existem 3 variações próximas da tagline-mestra —
-o hero diz "soluções de **softwares**" ([`HeroTerminal.tsx`](../../src/components/HeroTerminal/HeroTerminal.tsx)),
+o hero diz "soluções de **softwares**" ([`HeroTerminal.tsx`](../../apps/web/src/components/HeroTerminal/HeroTerminal.tsx)),
 enquanto a OG e o `seo.ts` dizem "soluções de **software**"; o lede do hero e a `description` do `seo.ts`
 têm fraseado levemente diferente. Mantidos como estão (não é trabalho de design alterar copy), mas se for
 unificar, estes são os pontos.
@@ -144,7 +144,7 @@ decisões conscientes (runtime de borda, mask-composite, etc.). Ao editar um, aj
 
 | Literal | Onde | Token-espelho | Por que é literal |
 |---|---|---|---|
-| Paleta inteira em hex (`#07080a`, `#c44fd0`, `#8b5cf6`, `#3d9be0`, `#9b6cf0`, `#aab0ba`, `#7a808a`, `#6a7079`) | [`opengraph-image.tsx`](../../src/app/opengraph-image.tsx) | `--bg-root`, `--color-brand-*`, `--color-brand-violet-light`, `--color-gray-*` | O runtime de borda (`next/og`) **não lê CSS vars** |
+| Paleta inteira em hex (`#07080a`, `#c44fd0`, `#8b5cf6`, `#3d9be0`, `#9b6cf0`, `#aab0ba`, `#7a808a`, `#6a7079`) | [`opengraph-image.tsx`](../../apps/web/src/app/opengraph-image.tsx) | `--bg-root`, `--color-brand-*`, `--color-brand-violet-light`, `--color-gray-*` | O runtime de borda (`next/og`) **não lê CSS vars** |
 | Gradiente do anel do CTA `#c44fd0,#8b5cf6,#3d9be0,#8b5cf6,#c44fd0` (5 paradas) | `SolutionCard.module.css` `.cta::before` | `--gradient-brand` (3 paradas) | Precisa de 5 paradas para o `pl-cta-flow` correr; `mask-composite` desenha só no anel |
 | `<linearGradient>` da sparkline `#9b6cf0` (stops 0.35→0) | `SolutionCard.tsx` `<defs>` | `--color-brand-violet-light` / `--gradient-spark-fill` | SVG inline com id por slug (`plspark-${slug}`) para não colidir entre cards |
 | Scrim do hero em `rgba(7,8,10,·)` | `HeroTerminal.module.css` `.coverScrim` | `--color-ink-950` (`#07080a`) | Gradiente calculado a partir do knob local `--hero-cover-scrim` |
@@ -154,7 +154,7 @@ decisões conscientes (runtime de borda, mask-composite, etc.). Ao editar um, aj
 
 ## Tokens de reserva (definidos, não fiados)
 
-Tokens **definidos em `theme.css` mas sem uso** no `src/` (verificado). São **reserva intencional** — não
+Tokens **definidos em `theme.css` mas sem uso** no `apps/web/src/` (verificado). São **reserva intencional** — não
 remover sem decisão, e **não assumir que estão ligados**:
 
 - `--feedback-success/warning/info/neutral` — o status do card usa `--color-status-live/beta` direto.

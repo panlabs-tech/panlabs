@@ -9,9 +9,9 @@ Leia isto antes de qualquer trabalho visual/UI.
 
 ## Princípio: origem ≠ fonte-da-verdade
 
-- **Fonte-da-verdade (viva):** o **código** em `src/`. Os tokens vivem em
-  [`src/styles/theme.css`](../../src/styles/theme.css); resets e foco em
-  [`src/styles/base.css`](../../src/styles/base.css); a forma de cada componente no seu
+- **Fonte-da-verdade (viva):** o **código** em `apps/web/src/`. Os tokens vivem em
+  [`apps/web/src/styles/theme.css`](../../apps/web/src/styles/theme.css); resets e foco em
+  [`apps/web/src/styles/base.css`](../../apps/web/src/styles/base.css); a forma de cada componente no seu
   `*.module.css` co-localizado.
 - **Origem creditada (congelada):** **"Chosen"** — o protótipo oficial e único do V1, extraído em
   2026-06-22 (v1.0.0), em `.claude/design/panlabs/` (**gitignored**, não versionar, não des-ignorar).
@@ -30,12 +30,12 @@ nunca silenciada.
 
 | Camada | Arquivo(s) | Papel |
 |---|---|---|
-| Tokens | `src/styles/theme.css` | Fonte-da-verdade dos design tokens (3 camadas: primitive → semantic → component) |
-| Reset + foco | `src/styles/base.css` | Box-sizing, reset, `:focus-visible`, reduced-motion global |
-| Forma do componente | `src/components/*/*.module.css` | CSS Modules; **`@keyframes` co-localizadas** (escopo de `animation-name`) |
-| Editorial das Soluções | `src/data/solutions.ts` | Conteúdo curado por Solução (inclui `shot`/`shotBg`) — **não é design token** |
-| Ícones | `src/lib/icons.ts`, `src/components/Icon/` | SVGs auto-hospedados inline (Simple Icons) |
-| SEO / OG | `src/lib/seo.ts`, `src/app/opengraph-image.tsx` | Metadata e imagem social (usa **hex literais** — ver design-spec) |
+| Tokens | `apps/web/src/styles/theme.css` | Fonte-da-verdade dos design tokens (3 camadas: primitive → semantic → component) |
+| Reset + foco | `apps/web/src/styles/base.css` | Box-sizing, reset, `:focus-visible`, reduced-motion global |
+| Forma do componente | `apps/web/src/components/*/*.module.css` | CSS Modules; **`@keyframes` co-localizadas** (escopo de `animation-name`) |
+| Editorial das Soluções | `apps/web/src/data/solutions.ts` | Conteúdo curado por Solução (inclui `shot`/`shotBg`) — **não é design token** |
+| Ícones | `apps/web/src/lib/icons.ts`, `apps/web/src/components/Icon/` | SVGs auto-hospedados inline (Simple Icons) |
+| SEO / OG | `apps/web/src/lib/seo.ts`, `apps/web/src/app/opengraph-image.tsx` | Metadata e imagem social (usa **hex literais** — ver design-spec) |
 
 ## Mapa dos documentos
 

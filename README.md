@@ -38,7 +38,7 @@ Nenhuma variável de ambiente é obrigatória para subir. Sem `DATABASE_URL` o r
 | comando | o que faz |
 | --- | --- |
 | `pnpm dev` | sobe a aplicação em modo de desenvolvimento |
-| `pnpm lint` | verifica e formata com biome |
+| `pnpm lint` | verifica formatação e lint com biome, sem escrever (`pnpm lint:fix` escreve) |
 | `pnpm typecheck` | checa tipos com `tsc --noEmit` |
 | `pnpm test` | roda a suíte com vitest |
 | `pnpm build` | compila a saída `standalone` do Next |

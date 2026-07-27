@@ -10,7 +10,7 @@ do GitHub; os acessos são medidos pelo `/go`. Três fontes, donos distintos.
 
 ## 1. Adicionar a entrada editorial
 
-Em [`src/data/solutions.ts`](../../src/data/solutions.ts), crie um `Solution` e inclua-o no array
+Em [`apps/web/src/data/solutions.ts`](../../apps/web/src/data/solutions.ts), crie um `Solution` e inclua-o no array
 `solutions`. Campos da interface `Solution`:
 
 | Campo | O quê | Notas |
@@ -30,13 +30,13 @@ Em [`src/data/solutions.ts`](../../src/data/solutions.ts), crie um `Solution` e 
 
 ## 2. Adicionar o screenshot
 
-Coloque `shot-{slug}.png` em [`public/assets/`](../../public/assets) e escolha um `shotBg` que combine com
+Coloque `shot-{slug}.png` em [`apps/web/public/assets/`](../../apps/web/public/assets) e escolha um `shotBg` que combine com
 a borda do screenshot (o preview dá `blur(1.5px)` + `brightness(0.76)`; o `shotBg` aparece nas bordas do
 blur). Ver [solution-card.md → Preview](components/solution-card.md#preview).
 
 ## 3. (Se preciso) adicionar um ícone de tech
 
-Se alguma `tech[].slug` não estiver no set de ícones, adicione-a em `src/lib/icons.ts` — passo a passo em
+Se alguma `tech[].slug` não estiver no set de ícones, adicione-a em `apps/web/src/lib/icons.ts` — passo a passo em
 [components/icon.md](components/icon.md#como-adicionar-um-ícone).
 
 ## 4. O que acontece automaticamente

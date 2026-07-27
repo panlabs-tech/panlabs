@@ -7,8 +7,8 @@ literal de *"soluções plugadas em um único domínio"*
 
 ## Código
 
-- [`src/components/DomainArchitecture/DomainArchitecture.tsx`](../../../src/components/DomainArchitecture/DomainArchitecture.tsx)
-- [`src/components/DomainArchitecture/DomainArchitecture.module.css`](../../../src/components/DomainArchitecture/DomainArchitecture.module.css)
+- [`apps/web/src/components/DomainArchitecture/DomainArchitecture.tsx`](../../../apps/web/src/components/DomainArchitecture/DomainArchitecture.tsx)
+- [`apps/web/src/components/DomainArchitecture/DomainArchitecture.module.css`](../../../apps/web/src/components/DomainArchitecture/DomainArchitecture.module.css)
 
 ## Estrutura
 

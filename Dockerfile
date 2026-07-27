@@ -28,7 +28,14 @@ FROM node:22-alpine AS base
 WORKDIR /app
 ENV PNPM_HOME=/pnpm
 ENV PATH="$PNPM_HOME:$PATH"
-RUN npm install --global pnpm@11.17.0
+# A versão do pnpm fica escrita aqui e em `packageManager`, no `package.json`.
+# Não dá para instalar a partir do manifesto antes de copiá-lo, e o `corepack`,
+# que resolveria isso, verifica assinatura com chave embutida na imagem base:
+# uma versão de pnpm mais nova que a chave reprova o build. As duas cópias ficam,
+# e o passo de instalação abaixo é o que impede as duas de divergirem em
+# silêncio.
+ENV PNPM_VERSION=11.17.0
+RUN npm install --global pnpm@${PNPM_VERSION}
 
 # ---- deps: instala a partir do lockfile ----
 # Só os manifestos primeiro, para que a camada de instalação só invalide quando
@@ -39,7 +46,12 @@ RUN npm install --global pnpm@11.17.0
 FROM base AS deps
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/web/package.json ./apps/web/
-RUN pnpm install --frozen-lockfile --ignore-scripts
+RUN declared="$(node -p "require('./package.json').packageManager")" \
+ && if [ "$declared" != "pnpm@${PNPM_VERSION}" ]; then \
+      echo "package.json declara ${declared}, e a imagem instalou pnpm@${PNPM_VERSION}." >&2; \
+      exit 1; \
+    fi \
+ && pnpm install --frozen-lockfile --ignore-scripts
 
 # ---- builder: compila o servidor standalone ----
 FROM base AS builder

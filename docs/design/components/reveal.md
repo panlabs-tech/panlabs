@@ -6,13 +6,13 @@ herdam.
 
 ## Reveal — revelar ao rolar
 
-- [`src/components/Reveal/Reveal.tsx`](../../../src/components/Reveal/Reveal.tsx) — wrapper `"use client"`.
-- [`src/components/Reveal/useReveal.ts`](../../../src/components/Reveal/useReveal.ts) — o hook do observer.
-- [`src/components/Reveal/Reveal.module.css`](../../../src/components/Reveal/Reveal.module.css) — a forma.
+- [`apps/web/src/components/Reveal/Reveal.tsx`](../../../apps/web/src/components/Reveal/Reveal.tsx) — wrapper `"use client"`.
+- [`apps/web/src/components/Reveal/useReveal.ts`](../../../apps/web/src/components/Reveal/useReveal.ts) — o hook do observer.
+- [`apps/web/src/components/Reveal/Reveal.module.css`](../../../apps/web/src/components/Reveal/Reveal.module.css) — a forma.
 
 `<Reveal>` é um `div` **semanticamente neutro**: o conteúdo (heading, parágrafo, card, diagrama) vive
 **dentro** dele. Na primeira vez que entra na viewport, faz fade + sobe `--reveal-shift` (26px) para o
-lugar — **reveal-once** (depois desobserva). É o primeiro (e único) componente client do `src/`.
+lugar — **reveal-once** (depois desobserva). É o primeiro (e único) componente client do `apps/web/src/`.
 
 - **Observer** (`useReveal`): `IntersectionObserver` com `threshold: 0.16` e `rootMargin:
   "0px 0px -7% 0px"` (dispara um tico antes de estar 100% na tela). Espelha o protótipo Chosen das camadas.
@@ -34,7 +34,7 @@ lugar — **reveal-once** (depois desobserva). É o primeiro (e único) componen
 
 ## Prompt — assinatura de terminal
 
-- [`src/components/Terminal/Prompt.tsx`](../../../src/components/Terminal/Prompt.tsx) + `Prompt.module.css`.
+- [`apps/web/src/components/Terminal/Prompt.tsx`](../../../apps/web/src/components/Terminal/Prompt.tsx) + `Prompt.module.css`.
 
 A linha `panini@panlabs:~$ <command> <arg>` montada por spans coloridos — os **mesmos papéis** do prompt do
 hero (`.user` verde · `.colon` faint · `.tilde` azul terminal · `.dollar` body), com o `command` em
