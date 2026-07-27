@@ -13,9 +13,21 @@
 .env.local
 .env.*.local
 !.env.example
-.mcp.json
-.codex/config.toml
 .claude/settings.local.json
+
+# `.mcp.json` não é ignorado, e isso é decisão: ele é versionado com
+# placeholder de variável de ambiente (`${VAR}`), e o segredo mora no `.env`
+# ao lado. Ignorá-lo era o que fazia a configuração "compartilhada" nunca ser
+# compartilhada de fato, com o token literal dentro. Ver docs/agents/mcps.md.
+
+# Equipamento global de agente (skills, subagentes, comandos, hooks) mora num
+# lugar só, instalado na máquina, e não é versionado aqui. Ver AGENTS.md.
+.agents/
+.claude/skills/
+.claude/agents/
+.claude/commands/
+.claude/hooks/
+.claude/worktrees/
 
 # Python
 __pycache__/
