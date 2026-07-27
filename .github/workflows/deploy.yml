@@ -7,6 +7,14 @@ name: deploy
 # aqui (não usamos GHCR) — este workflow só chama a API de deploy do Coolify
 # para ele puxar e buildar o commit novo da main.
 #
+# O retrofit de layout moveu a aplicação para `apps/web/`, e **não** mexeu neste
+# caminho: o Dockerfile da raiz continua sendo um arquivo comum, com o contexto
+# de build na raiz (é lá que moram o lockfile e o manifesto do workspace).
+# `apps/web/Dockerfile` é um symlink para ele. A direção importa porque este
+# workflow não conseguiria acusar o contrário: ele chama a API do Coolify e faz
+# smoke test contra `panlabs.tech`, que continuaria respondendo 200 pelo
+# container antigo mesmo se o build novo tivesse falhado lá dentro.
+#
 # Secrets OBRIGATÓRIOS: COOLIFY_URL e COOLIFY_TOKEN (token de API do Coolify).
 # Se qualquer um faltar, o job FALHA em vermelho (antes ele pulava em silêncio
 # e o run ficava verde — um deploy que nunca aconteceu passava despercebido).
