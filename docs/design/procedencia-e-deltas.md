@@ -22,7 +22,7 @@
 
 ## 2. Princípio de leitura
 
-1. **`src/` é a fonte-da-verdade** (as-built). Onde `src/` e o bundle divergem, **`src/` vence** — o bundle
+1. **`apps/web/src/` é a fonte-da-verdade** (as-built). Onde `apps/web/src/` e o bundle divergem, **`apps/web/src/` vence** — o bundle
    é o ponto de partida histórico.
 2. **O design é dono da forma** ([ADR-0011](../adr/0011-produto-primeiro-indicadores-secundarios.md),
    [ADR-0012](../adr/0012-design-oficial-chosen-e-faseamento.md)). Evoluções de forma sobre Chosen são
@@ -44,7 +44,7 @@
 
 ## 3. Mapa de deltas (Chosen → as-built)
 
-### 3.A — Tokens (`src/styles/theme.css` vs bundle `theme.css`)
+### 3.A — Tokens (`apps/web/src/styles/theme.css` vs bundle `theme.css`)
 
 Quatro valores mudaram; o resto é idêntico (com normalização cosmética de caixa nos hex de marca).
 
@@ -63,7 +63,7 @@ Quatro valores mudaram; o resto é idêntico (com normalização cosmética de c
   Há NB explicando no próprio arquivo (`theme.css:210-213`). `[Forma]`
 - As paradas de breakpoint comentadas no `theme.css` de Chosen foram removidas; breakpoints reais vivem nos módulos.
 
-### 3.B — HeroTerminal (`src/components/HeroTerminal/`)
+### 3.B — HeroTerminal (`apps/web/src/components/HeroTerminal/`)
 
 | Delta | Chosen | as-built | Âncora | Classe |
 |---|---|---|---|---|
@@ -73,7 +73,7 @@ Quatro valores mudaram; o resto é idêntico (com normalização cosmética de c
 | Responsivo | sem media queries | título cai p/ `32px` e caret encolhe `<640px` | `.module.css:162-177` | `[Lacuna fechada]` |
 | Reduced-motion | — | congela typewriter (texto cheio) + caret estático | `.module.css:150-159` | `[Lacuna fechada]` |
 
-### 3.C — SolutionCard + preview (`src/components/SolutionCard/`)
+### 3.C — SolutionCard + preview (`apps/web/src/components/SolutionCard/`)
 
 | Delta | Chosen | as-built | Âncora | Classe |
 |---|---|---|---|---|
@@ -89,7 +89,7 @@ Quatro valores mudaram; o resto é idêntico (com normalização cosmética de c
 | Touch target | ~38px | `min-height:44px` no CTA `<640px` | `.module.css:303-310` | `[Lacuna fechada]` |
 | Reduced-motion | — | sem lift/zoom; sparkline já desenhada; sem fluxo/seta | `.module.css:313-339` | `[Lacuna fechada]` |
 
-### 3.D — Header / Logo (`src/components/Header/`)
+### 3.D — Header / Logo (`apps/web/src/components/Header/`)
 
 | Delta | Chosen | as-built | Âncora | Classe |
 |---|---|---|---|---|
@@ -100,7 +100,7 @@ Quatro valores mudaram; o resto é idêntico (com normalização cosmética de c
 | Forced-colors | — | `forced-color-adjust:none` na marca | `Header.module.css:15` | `[Lacuna fechada]` |
 | Responsivo | — | tagline some `<768px` | `Header.module.css:53-57` | `[Lacuna fechada]` |
 
-### 3.E — PlaceholderCard (`src/components/PlaceholderCard/`)
+### 3.E — PlaceholderCard (`apps/web/src/components/PlaceholderCard/`)
 
 | Delta | [ADR-0012](../adr/0012-design-oficial-chosen-e-faseamento.md) §3 (draft slot) | as-built | Âncora | Classe |
 |---|---|---|---|---|
@@ -109,7 +109,7 @@ Quatro valores mudaram; o resto é idêntico (com normalização cosmética de c
 > Mantém a **intenção** do ADR (slot inerte, não clicável, que não finge ser solução real), mas viola duas
 > restrições literais: "sem badge" e "zero motion".
 
-### 3.F — Catalog (`src/components/Catalog/`)
+### 3.F — Catalog (`apps/web/src/components/Catalog/`)
 
 | Delta | Chosen / ADR | as-built | Âncora | Classe |
 |---|---|---|---|---|
@@ -119,7 +119,7 @@ Quatro valores mudaram; o resto é idêntico (com normalização cosmética de c
 | Vitalidade | curada estática (V1.0) | **vitalidade GitHub ao vivo**: `Promise.all(solutions.map(resolveVitality))`, overlay sobre os valores curados, semântica [ADR-0013](../adr/0013-semantica-vitalidade-live-commits-prs.md) | `Catalog.tsx:9`, `lib/github.ts` | `[Contradiz ADR]` (fase, ver 4.2) |
 | Streaming | — | `<Suspense>` isola o catálogo p/ o hero não esperar a rede | `app/page.tsx:14-16` | `[Adição]` |
 
-### 3.G — Iconografia (`src/lib/icons.ts`, `src/components/Icon/`)
+### 3.G — Iconografia (`apps/web/src/lib/icons.ts`, `apps/web/src/components/Icon/`)
 
 | Delta | Chosen | as-built | Âncora | Classe |
 |---|---|---|---|---|
@@ -127,11 +127,11 @@ Quatro valores mudaram; o resto é idêntico (com normalização cosmética de c
 | Conjunto | inclui `python` | `nextdotjs, postgresql, typescript, fastapi, github` (sem `python` — nenhuma solução usa) | `lib/icons.ts:15-36` | `[Forma]` |
 | Comentário | — | era "used to build the CDN icon URL"; **corrigido na Fase 3 (Trilha A)** para "self-hosted inline path in src/lib/icons.ts" | `data/solutions.ts:5` | `[Defasado]` — resolvido ✅ |
 
-### 3.H — Fontes (`src/app/layout.tsx`)
+### 3.H — Fontes (`apps/web/src/app/layout.tsx`)
 
 | Delta | Chosen | as-built | Âncora | Classe |
 |---|---|---|---|---|
-| Entrega | famílias por nome (Google Fonts implícito) | **`next/font/local`** com woff2 latinos (`manrope`/`jetbrains-mono`), variáveis, `display:swap` | `app/layout.tsx:1-20`, `src/fonts/*.woff2` | `[Lacuna fechada]` |
+| Entrega | famílias por nome (Google Fonts implícito) | **`next/font/local`** com woff2 latinos (`manrope`/`jetbrains-mono`), variáveis, `display:swap` | `app/layout.tsx:1-20`, `apps/web/src/fonts/*.woff2` | `[Lacuna fechada]` |
 
 ### 3.I — Acessibilidade (global)
 
@@ -142,7 +142,7 @@ Quatro valores mudaram; o resto é idêntico (com normalização cosmética de c
 - `forced-color-adjust` na marca; `aria-hidden`/`focusable=false` em ícones e sparkline; `aria-label` no placeholder; `alt=""` em imagens decorativas. `[Lacuna fechada]`
 - **Caveat persistente:** micro-labels seguem nas cores sub-AA (`--text-faint` `#5f656e` em `statLabel` 9.5px; nav-tagline `#6a7079` 10.5px). O bump 8.5→9.5px ameniza mas não cruza o limiar de "texto grande". Mantido por fidelidade (decisão de Chosen/handoff). `[Forma]`
 
-### 3.J — SEO / Open Graph / favicons (`src/lib/seo.ts`, `src/app/opengraph-image.tsx`)
+### 3.J — SEO / Open Graph / favicons (`apps/web/src/lib/seo.ts`, `apps/web/src/app/opengraph-image.tsx`)
 
 Inexistentes em Chosen (protótipo HTML único). `[Adição]` / `[Lacuna fechada]` parcial:
 - `siteMetadata`: title/description, canonical, favicons (`favicon-32`, `favicon-192`, `apple-touch-icon`), OpenGraph `pt_BR`, Twitter `summary_large_image` (`lib/seo.ts`).
@@ -157,7 +157,7 @@ Fora da camada de design, mas decisivo para 4.2:
 - Persistência de clique — `lib/db.ts`. Cabeçalhos de segurança — `lib/security-headers.ts`.
 - Vitalidade GitHub ao vivo com cache/revalidate e degradação graciosa — `lib/github.ts`.
 
-→ O `src/` está **em território V1.1**, não V1.0.
+→ O `apps/web/src/` está **em território V1.1**, não V1.0.
 
 ---
 
@@ -196,7 +196,7 @@ Fora da camada de design, mas decisivo para 4.2:
 
 ## 5. Higiene do sistema de tokens
 
-### 5.1 — Tokens vestigiais (definidos em `theme.css`, **zero uso** no `src/` — verificado)
+### 5.1 — Tokens vestigiais (definidos em `theme.css`, **zero uso** no `apps/web/src/` — verificado)
 
 **Reserva documentada** (permanecem; não remover sem decisão — parte é reserva intencional, `handoff.md §6`):
 `--feedback-success/warning/info/neutral` (status usa `--color-status-live/beta` direto) · `--gradient-spark-fill`
@@ -260,7 +260,7 @@ Sabatina `/grill-with-docs`. Princípio aplicado: onde o as-built divergiu de Ch
 
 - **4.3 — shotBg.** **Sem drift de domínio** (querymind já tratado corretamente no `ADR-0012`; ausente em `CONTEXT`/`VISION`/`ADR-0006`). `data.shotBg` é a verdade; **remover os 3 `--color-shot-*`** de `theme.css` — **todos** vestigiais (a §3.F/§5.1 acima erraram ao listar só o de querymind; corrigir na finalização). Documentar `shotBg` como campo editorial por-solução (junto do `shot`).
 - **Header sticky — restaurar.** `position: sticky; top: 0; z-index: var(--z-header); backdrop-filter: …` no `.header`. Honra "barra fixa" de Chosen e cura os órfãos: **`--z-header` deixa de ser vestigial** e a translucidez de `--bg-header` passa a ter função.
-- **Logo — seguir Chosen.** Marca **circular** (`border-radius: 50%`, revertendo o `8px`) e **SVG como asset canônico**. Estado atual: raster `apple-touch-icon.png`, cantos `8px`, **nenhum SVG em `public/`**. → Fase 3: corrigir o raio; **produzir o SVG é tarefa de asset aberta** (o app-icon raster pode cortar mal em círculo).
+- **Logo — seguir Chosen.** Marca **circular** (`border-radius: 50%`, revertendo o `8px`) e **SVG como asset canônico**. Estado atual: raster `apple-touch-icon.png`, cantos `8px`, **nenhum SVG em `apps/web/public/`**. → Fase 3: corrigir o raio; **produzir o SVG é tarefa de asset aberta** (o app-icon raster pode cortar mal em círculo).
 - **Contraste sub-AA** (micro-labels `statLabel` 9.5px `#5f656e`; nav-tagline 10.5px `#6a7079`). **Manter** (decisão do dono) — documentar em `accessibility.md` como **trade-off consciente** (fidelidade a Chosen), não bug.
 - **OG image em hex literais.** **Manter** — documentar em `design-spec.md` como **literais conscientes** (runtime de borda não lê CSS vars), com o token-espelho ao lado para sincronia manual.
 
@@ -272,7 +272,7 @@ Sabatina `/grill-with-docs`. Princípio aplicado: onde o as-built divergiu de Ch
 
 Materialização do contrato de design. Duas trilhas.
 
-### Trilha A — edições de código (alinhar `src/` às decisões das §8/§5)
+### Trilha A — edições de código (alinhar `apps/web/src/` às decisões das §8/§5)
 
 7 edições, em 5 arquivos:
 

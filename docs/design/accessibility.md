@@ -6,7 +6,7 @@ são contratos, não enfeite: ao editar um componente, preserve-os.
 
 ## Foco
 
-[`base.css`](../../src/styles/base.css) — anel de foco **só para teclado** (`:focus-visible`), sem mudar
+[`base.css`](../../apps/web/src/styles/base.css) — anel de foco **só para teclado** (`:focus-visible`), sem mudar
 nada para o ponteiro:
 
 ```css
@@ -56,7 +56,7 @@ protótipo Chosen**, que também porta o reveal no JS. Implicações:
 - A **marca** (logo) leva `forced-color-adjust: none` — exceção deliberada para o mark não virar um
   retângulo de sistema (`Header.module.css`).
 - Os **ícones** usam `fill="currentColor"`, então herdam a cor do texto e **sobrevivem** ao forced-colors
-  sem tratamento especial ([`Icon.tsx`](../../src/components/Icon/Icon.tsx)).
+  sem tratamento especial ([`Icon.tsx`](../../apps/web/src/components/Icon/Icon.tsx)).
 
 ## Semântica & ARIA
 

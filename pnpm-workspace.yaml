@@ -1,0 +1,26 @@
+# O workspace da vitrine. Uma aplicação hoje, e o plural do caminho é o ponto:
+# `apps/*` é o layout de monorepo que a anatomia da org cobra do tipo aplicação,
+# e ele existe para que navegar entre as aplicações da frota não exija
+# recontextualização.
+#
+# A raiz não é pacote publicável: ela hospeda os scripts que a CI chama, a
+# ferramenta transversal (biome, commitlint, lefthook) e o lockfile único.
+packages:
+  - "apps/*"
+
+# O pnpm não roda script de instalação de dependência sem permissão explícita, e
+# a ausência da decisão é erro, não default silencioso. As duas que precisam:
+#
+# - `lefthook` baixa o binário do portão local no postinstall. Sem ele, o
+#   `prepare` da raiz não teria o que instalar como git hook.
+# - `sharp` roda o script que confere o binário pré-compilado da plataforma e,
+#   se não houver, compila do fonte. É o codec que o Next usa para otimizar
+#   imagem.
+#
+# As duas valem para a instalação de desenvolvimento e a da CI. A imagem de
+# produção instala com `--ignore-scripts` (o `prepare` da raiz quer um git que
+# não existe lá dentro), e o `sharp` continua funcionando por causa do pacote
+# pré-compilado da plataforma, que é dependência opcional e entra sem script.
+allowBuilds:
+  lefthook: true
+  sharp: true

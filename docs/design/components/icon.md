@@ -5,8 +5,8 @@ runtime do `cdn.simpleicons.org` (#15) — nada de request externo por ícone.
 
 ## Código
 
-- [`src/components/Icon/Icon.tsx`](../../../src/components/Icon/Icon.tsx)
-- [`src/lib/icons.ts`](../../../src/lib/icons.ts)
+- [`apps/web/src/components/Icon/Icon.tsx`](../../../apps/web/src/components/Icon/Icon.tsx)
+- [`apps/web/src/lib/icons.ts`](../../../apps/web/src/lib/icons.ts)
 
 ## Contrato
 
@@ -27,8 +27,8 @@ enxuto de propósito.)
 ## Como adicionar um ícone
 
 1. Pegue o `path` do mark no [Simple Icons](https://simpleicons.org) (um único `d` num viewBox 24×24).
-2. Adicione a entrada em `ICONS` (`src/lib/icons.ts`) com `title` (nome acessível da fonte) e `path`.
-3. Referencie pelo `slug` em `tech[].slug` da Solução em `src/data/solutions.ts` (ver
+2. Adicione a entrada em `ICONS` (`apps/web/src/lib/icons.ts`) com `title` (nome acessível da fonte) e `path`.
+3. Referencie pelo `slug` em `tech[].slug` da Solução em `apps/web/src/data/solutions.ts` (ver
    [como-adicionar-uma-solucao.md](../como-adicionar-uma-solucao.md)).
 
 ## Invariantes

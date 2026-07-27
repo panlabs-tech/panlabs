@@ -1,18 +1,40 @@
-node_modules
-.next
+# O contexto de build é a raiz do repositório, e as aplicações moram em
+# subpasta: por isso os padrões de artefato usam `**/`, e não o nome solto.
+# `node_modules` sozinho só casaria com o da raiz, e o de `apps/web` entraria no
+# contexto, invalidando a camada de dependências a cada build.
+**/node_modules
+**/.next
+**/*.tsbuildinfo
+
 .git
 .gitignore
+.dockerignore
 npm-debug.log*
+pnpm-debug.log*
+
+# Segredo nunca entra no contexto. O exemplo pode: ele não tem valor nenhum.
 .env
 .env.*
 !.env.example
+
+# O Dockerfile é lido pelo cliente, não pelo contexto. O da raiz é a receita, e
+# `apps/web/Dockerfile` é symlink para ele; nenhum dos dois precisa ser copiado
+# para dentro da imagem.
 Dockerfile
-.dockerignore
+apps/*/Dockerfile
+
+# Teste não entra na imagem de produção.
 **/*.test.ts
 **/*.test.tsx
+
+# Configuração de agente, documentação e rascunho: nada disso é build.
+# `.agents` já não é versionado, e continua listado porque o contexto de um
+# `docker build .` local carrega o que está no disco, não o que está no git.
 .claude
-.codex
 .agents
+.mcp.json
 docs
 prompts
+AGENTS.md
+CLAUDE.md
 README.md

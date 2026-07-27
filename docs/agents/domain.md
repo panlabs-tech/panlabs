@@ -18,7 +18,8 @@ Single-context repo, docs nested under `docs/`:
 
 ```
 /
-├── CLAUDE.md
+├── AGENTS.md                         ← source of truth for agent guidance
+├── CLAUDE.md                         ← defers to AGENTS.md
 ├── docs/
 │   ├── CONTEXT.md
 │   ├── VISION.md
@@ -26,7 +27,7 @@ Single-context repo, docs nested under `docs/`:
 │       ├── README.md
 │       ├── 0001-vitrine-agregador-read-only.md
 │       └── … 0014-autonomia-total-dos-agentes.md
-└── src/                              ← (V1.0 onwards)
+└── apps/web/src/                     ← the application code
 ```
 
 ## Use the glossary's vocabulary

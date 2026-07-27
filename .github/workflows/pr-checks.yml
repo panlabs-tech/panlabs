@@ -1,14 +1,22 @@
 name: pr-checks
 
-# Portão de qualidade antes do merge na main — o único gate deste repo solo.
-# Dispara no push das branches de trabalho (inclui worktree/** geradas por
-# agente). Quando todos os checks ficam verdes, open-pr abre o PR para a main.
-# Merge autônomo no verde — o agente mergeia diretamente sem esperar operador
-# (ADR-0014).
+# Portão 2, na CI, antes do merge na main. O portão 1 é local, antes do commit
+# (`lefthook.yml`).
 #
-# CD: deploy.yml dispara no push à main e aciona a API do Coolify para buildar
-# e subir o novo commit (ADR-0004). O Coolify clona o repo e builda o
-# Dockerfile da raiz — não há build de imagem GHCR neste pipeline.
+# Este arquivo é um **caller**: ele referencia os reusable workflows publicados
+# em `panlabs-tech/.github` em vez de carregar a lógica. A cópia era o problema
+# medido: os quatro arquivos de CI da frota nasceram copiados um do outro e
+# divergiram entre 48% e 86% em sete semanas, então origem comum não impede
+# deriva (panlabs-tech/.github#7).
+#
+# A referência pina a **tag exata**, nunca uma tag flutuante como `@v1`: uma
+# mudança na CI compartilhada não pode quebrar todos os consumidores ao mesmo
+# tempo sem aviso. Subir de tag é, hoje, edição manual desta linha: este repo
+# ainda não tem `.github/dependabot.yml` declarando o ecossistema
+# `github-actions`, que é o que abriria o PR de bump sozinho.
+#
+# CD: `deploy.yml` dispara no push à main e aciona a API do Coolify para buildar
+# e subir o commit novo. Não há build de imagem GHCR neste pipeline.
 
 on:
   push:
@@ -21,6 +29,16 @@ on:
       - "test/**"
       - "ci/**"
       - "worktree/**"
+      # A ferramenta de worktree do Claude Code gera branch com hífen
+      # (`worktree-<nome>`), não com barra.
+      - "worktree-**"
+      # A raiz de branch do Dependabot, que não é configurável. Sem esta linha o
+      # PR do bot não dispara checagem nenhuma e os required checks nunca saem,
+      # e o PR fica pendurado esperando um status que ninguém vai publicar.
+      # Não é linha preventiva: as atualizações de segurança do Dependabot já
+      # abrem PR aqui sem depender de `.github/dependabot.yml`, e havia duas
+      # branches `dependabot/**` vivas no remoto quando esta linha foi escrita.
+      - "dependabot/**"
 
 permissions:
   contents: read
@@ -30,89 +48,74 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # A perna da única superfície deste repo. O nome do job é contrato: é ele que
+  # o rollup lista em `needs`, e é ele que o checker de conformidade da org
+  # procura ao cobrar que a superfície Node tenha perna declarada. Uma perna que
+  # não está aqui sai verde sem ter rodado nada.
+  #
+  # `working-directory: .` e não `apps/web`: o workspace pnpm instala do
+  # lockfile da raiz, e os scripts da raiz (`lint`, `typecheck`, `test`,
+  # `build`) delegam para a aplicação.
+  checks-node:
+    name: checks-node
+    uses: panlabs-tech/.github/.github/workflows/checks-node.yml@v1.0.0
+    with:
+      package-manager: pnpm
+      working-directory: .
+
+  # O rollup: id fixo, `needs` sobre as pernas por superfície deste repo.
+  # `if: always()` mais checagem explícita do resultado, para que uma perna
+  # reprovada **reprove** o rollup em vez de pulá-lo: pulado não é reprovado, e
+  # é esse o footgun que mata o desenho ingênuo. O mesmo cálculo é modelado e
+  # testado em Python, em `panlabs.ci.rollup.rollup_conclusion`, no repo meta.
   checks:
     name: checks
+    needs: [checks-node]
+    if: always()
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v6
-        with:
-          node-version-file: .node-version
-          cache: npm
-      - run: npm ci
-      - name: lint (biome)
-        run: npm run lint
-      - name: typecheck (tsc)
-        run: npm run typecheck
-      - name: test (vitest)
-        run: npm test
-      - name: build (next)
-        run: npm run build
-
-  security:
-    name: security
-    runs-on: ubuntu-latest
-    # A action gitleaks/gitleaks-action exige licenca paga quando o repo
-    # pertence a uma organizacao ("[org] is an organization. License key is
-    # required."), o que passou a valer ao transferir panlabs para
-    # panlabs-tech. O binario gitleaks e MIT e nao tem essa restricao, entao
-    # usamos ele direto: versao fixada e checksum conferido antes de executar.
-    env:
-      GITLEAKS_VERSION: 8.30.1
-      GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-      - name: instalar gitleaks
+      - name: agregar o resultado das pernas por superfície
         run: |
           set -euo pipefail
-          tarball="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
-          curl -sSfL -o "$tarball" \
-            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/${tarball}"
-          echo "${GITLEAKS_SHA256}  ${tarball}" | sha256sum --check --status
-          sudo tar -xzf "$tarball" -C /usr/local/bin gitleaks
-          rm -f "$tarball"
-          gitleaks version
-      - name: gitleaks (historico completo)
-        run: gitleaks git . --redact --verbose
+          result="${{ needs.checks-node.result }}"
+          if [[ "$result" != "success" && "$result" != "skipped" ]]; then
+            echo "::error::checks-node reprovou (${result})."
+            exit 1
+          fi
 
+  security-scan:
+    uses: panlabs-tech/.github/.github/workflows/security.yml@v1.0.0
+
+  # Job de fachada em volta de `security-scan`, e não um rollup de superfícies
+  # (só existe um scan de segredos possível por repo). Existe porque um job que
+  # chama um reusable workflow via `uses:` publica o check com o nome
+  # "<job do caller> / <job do workflow chamado>", nunca só o nome do job do
+  # caller: comportamento do GitHub Actions, sem opção para suprimir. Sem esta
+  # fachada, o required check `security` da org nunca existiria com esse nome.
+  security:
+    name: security
+    needs: [security-scan]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: agregar o resultado do scan
+        run: |
+          set -euo pipefail
+          result="${{ needs.security-scan.result }}"
+          if [[ "$result" != "success" && "$result" != "skipped" ]]; then
+            echo "::error::security-scan reprovou (${result})."
+            exit 1
+          fi
+
+  # O Dependabot já abre o próprio PR: rodar `open-pr` na branch dele seria, no
+  # melhor caso, ruído, e no pior, corrida com quem abriu primeiro. A condição
+  # não afrouxa o gate porque `open-pr` nunca foi required (seria circular: é o
+  # job que cria o PR).
   open-pr:
     name: open-pr
     needs: [checks, security]
-    runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]'
+    uses: panlabs-tech/.github/.github/workflows/open-pr.yml@v1.0.0
     permissions:
       contents: read
       pull-requests: write
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-      - name: Abrir PR para a main se ainda nao existir
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: ${{ github.ref_name }}
-        run: |
-          set -euo pipefail
-
-          if [ "$(gh pr list --head "$BRANCH" --base main --state open --json number --jq 'length')" -ne 0 ]; then
-            echo "::notice::Ja existe PR aberto de $BRANCH para a main."
-            exit 0
-          fi
-
-          git fetch --quiet origin main
-          if [ "$(git rev-list --count FETCH_HEAD..HEAD)" -eq 0 ]; then
-            echo "::notice::$BRANCH nao tem commits novos sobre a main."
-            exit 0
-          fi
-
-          title="$(git log "FETCH_HEAD..HEAD" --pretty=%s | head -n1 || true)"
-          [ -z "$title" ] && title="$(git log -1 --pretty=%s)"
-
-          gh pr create \
-            --base main \
-            --head "$BRANCH" \
-            --title "$title" \
-            --body "PR aberto automaticamente após checks verdes. Merge autônomo no verde — agente faz o merge diretamente sem esperar operador."
-
-          echo "::notice::PR aberto: $BRANCH -> main"

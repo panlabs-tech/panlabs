@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "hostinger-vps": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "--package", "hostinger-api-mcp@0.2.5", "hostinger-vps-mcp"],
+      "env": {
+        "HOSTINGER_API_TOKEN": "${HOSTINGER_API_TOKEN}"
+      }
+    },
+    "coolify": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@masonator/coolify-mcp@2.12.0"],
+      "env": {
+        "COOLIFY_BASE_URL": "${COOLIFY_BASE_URL:-https://vps.panlabs.tech}",
+        "COOLIFY_ACCESS_TOKEN": "${COOLIFY_ACCESS_TOKEN}"
+      }
+    },
+    "cloudflare": {
+      "type": "http",
+      "url": "https://mcp.cloudflare.com/mcp"
+    }
+  }
+}

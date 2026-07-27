@@ -5,8 +5,8 @@ O terceiro item do grid — o *rascunho* de uma Solução futura. **Não é um C
 
 ## Código
 
-- [`src/components/PlaceholderCard/PlaceholderCard.tsx`](../../../src/components/PlaceholderCard/PlaceholderCard.tsx)
-- [`src/components/PlaceholderCard/PlaceholderCard.module.css`](../../../src/components/PlaceholderCard/PlaceholderCard.module.css)
+- [`apps/web/src/components/PlaceholderCard/PlaceholderCard.tsx`](../../../apps/web/src/components/PlaceholderCard/PlaceholderCard.tsx)
+- [`apps/web/src/components/PlaceholderCard/PlaceholderCard.module.css`](../../../apps/web/src/components/PlaceholderCard/PlaceholderCard.module.css)
 
 ## Estrutura
 

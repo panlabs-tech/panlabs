@@ -6,8 +6,8 @@ desenhada dentro de um anel de gradiente que se traça, a marca respirando um gl
 
 ## Código
 
-- [`src/components/Manifesto/Manifesto.tsx`](../../../src/components/Manifesto/Manifesto.tsx)
-- [`src/components/Manifesto/Manifesto.module.css`](../../../src/components/Manifesto/Manifesto.module.css)
+- [`apps/web/src/components/Manifesto/Manifesto.tsx`](../../../apps/web/src/components/Manifesto/Manifesto.tsx)
+- [`apps/web/src/components/Manifesto/Manifesto.module.css`](../../../apps/web/src/components/Manifesto/Manifesto.module.css)
 
 ## Estrutura
 

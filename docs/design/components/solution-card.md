@@ -6,9 +6,9 @@ prova-de-vida **secundária e discreta** ([ADR-0011](../../adr/0011-produto-prim
 
 ## Código
 
-- [`src/components/SolutionCard/SolutionCard.tsx`](../../../src/components/SolutionCard/SolutionCard.tsx)
-- [`src/components/SolutionCard/SolutionCard.module.css`](../../../src/components/SolutionCard/SolutionCard.module.css)
-- Consome: [`src/data/solutions.ts`](../../../src/data/solutions.ts) (`Solution`), [`src/lib/sparkline.ts`](../../../src/lib/sparkline.ts), [`Icon`](icon.md).
+- [`apps/web/src/components/SolutionCard/SolutionCard.tsx`](../../../apps/web/src/components/SolutionCard/SolutionCard.tsx)
+- [`apps/web/src/components/SolutionCard/SolutionCard.module.css`](../../../apps/web/src/components/SolutionCard/SolutionCard.module.css)
+- Consome: [`apps/web/src/data/solutions.ts`](../../../apps/web/src/data/solutions.ts) (`Solution`), [`apps/web/src/lib/sparkline.ts`](../../../apps/web/src/lib/sparkline.ts), [`Icon`](icon.md).
 
 ## Estrutura
 
@@ -62,7 +62,7 @@ Enum **`"live" | "beta"`** (só os dois estilizados no V1 — `idea`/`alpha`/`su
 
 Os valores de `stats`/`weeks` podem chegar **ao vivo** do GitHub (o `Catalog` chama `resolveVitality`) ou
 cair para os **curados** de `solutions.ts` quando falta `GITHUB_TOKEN`/rede — degradação graciosa
-([`lib/github.ts`](../../../src/lib/github.ts), semântica em
+([`lib/github.ts`](../../../apps/web/src/lib/github.ts), semântica em
 [ADR-0013](../../adr/0013-semantica-vitalidade-live-commits-prs.md)). O card renderiza igual nos dois casos.
 
 ## CTA
